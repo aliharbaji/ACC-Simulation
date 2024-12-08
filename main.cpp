@@ -6,7 +6,8 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-#define JSON_PATH "Utility/car_params.json"
+//#define JSON_PATH "Utility/car_params.json"
+#define JSON_PATH "../Utility/car_params.json"
 #define DELTA_TIME 0.01
 
 using namespace std;

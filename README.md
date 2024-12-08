@@ -1,3 +1,5 @@
+Adaptive Cruise Control Simulation
+
 Overview
 
 This project simulates an Adaptive Cruise Control (ACC) system for a car (referred to as red_car) that adjusts its speed based on real-time data from a LiDAR sensor. 
@@ -11,7 +13,7 @@ Features
 
   The forumla used is:
   
-  ```a = k1​⋅ speedDifference + k2​ ⋅ distanceDifference```
+  ```a = k1​ ⋅ speedDifference + k2​ ⋅ distanceDifference```
   
     a: Acceleration or deceleration of the host vehicle (m/s²).
   
@@ -48,8 +50,8 @@ pip3 install pygame
 ```
 1. Clone the repository:
   ```bash
-  git clone https://github.com/yourusername/acc-simulation.git
-  cd acc-simulation
+  git clone https://github.com/aliharbaji/ACC.git
+  cd ACC
 ```
 
 2. Build the project:
