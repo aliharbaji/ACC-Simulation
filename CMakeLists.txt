@@ -25,7 +25,7 @@ add_executable(ACC
         main.cpp
         Car/Car.cpp
         ACC/ACC.h
-)
+        Utility/globals.h)
 
 # Link the json library
 target_link_libraries(ACC PRIVATE nlohmann_json::nlohmann_json)

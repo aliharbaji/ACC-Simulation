@@ -2,13 +2,13 @@
     "blue_car": {
         "acceleration": 0.0,
         "velocity": 1.0,
-        "x": 400.0,
+        "x": 256.0,
         "y": 400.0
     },
     "red_car": {
-        "acceleration": 1.0,
-        "velocity": 1.0,
-        "x": 0.0,
+        "acceleration": 0.03134982050306525,
+        "velocity": 1.8837268858085996,
+        "x": 54.528857440411336,
         "y": 400.0
     }
 }

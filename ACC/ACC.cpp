@@ -48,38 +48,22 @@ void update_json_from_cars(const std::string& json_file_path, Car& red_car, Car&
 
 
 // Function to simulate the LIDAR scan and get distance to blue car
-double get_lidar_distance(const Car& red_car, const Car& blue_car) {
+double get_lidar_distance( Car& red_car,  Car& blue_car) {
     double distance = std::sqrt(std::pow(blue_car.getX() - red_car.getX(), 2) + std::pow(blue_car.getY() - red_car.getY(), 2));
     return distance;
 }
 
-double get_lidar_relative_speed(const Car& red_car, const Car& blue_car) {
+double get_lidar_relative_speed( Car& red_car, Car& blue_car) {
     double rel_speed = blue_car.getSpeed() - red_car.getSpeed();
     return rel_speed;
 }
-
-// Function to simulate the movement of the red and blue cars
-//void move_cars(Car& red_car, Car& blue_car) {
-//    // Move the red car based on the current speed
-//    red_car.move(red_car.getSpeed(), 0);
-//
-//    // Simulate the movement of the blue car (obstacle)
-//    blue_car.move(0.05, 0);
-//
-//    if (blue_car.getX() > 100.0 || blue_car.getX() < 0) {
-//        blue_car.setAt(0, blue_car.getY());  // Reset position if it goes out of bounds
-//    }
-//
-//    // Write car parameters to JSON file
-////    write_car_params_to_json(red_car, blue_car);
-//}
 
 void adjust_speed(Car& car, double lidar_distance){
     car.adjust_speed(lidar_distance);
 }
 
 // Function to print car positions and speeds for visualization
-void print_status(const Car& red_car, const Car& blue_car, double distance) {
+void print_status( Car& red_car,  Car& blue_car, double distance) {
     std::cout << "Red Car - X: " << red_car.getX() << ", Speed: " << red_car.getSpeed() << " m/s\n";
     std::cout << "Blue Car - X: " << blue_car.getX() << "\n";
     std::cout << "Distance to Blue Car: " << distance << " meters\n";
@@ -131,6 +115,7 @@ void AdaptiveCruiseControl::updateRelativeSpeed(double relative_speed) {
 }
 
 void AdaptiveCruiseControl::adjustSpeed() {
+
     double currentSpeed = car.getSpeed();  // Current speed of the car (km/h)
     double distanceDifference = currentDistance - safeDistance;
     double acceleration;
@@ -138,7 +123,7 @@ void AdaptiveCruiseControl::adjustSpeed() {
     if (distanceDifference > 0) {
         // Calculate the desired acceleration to reach the target speed
         double speedDifference = targetSpeed - currentSpeed;
-        acceleration = k1 * speedDifference;
+        acceleration = k1 * speedDifference + k2 * distanceDifference;
 
         // Smooth acceleration: limit the acceleration to a maximum value and adjust based on the distance difference
         double smoothFactor = std::min(distanceDifference / 100.0, 1.0);  // Smooth factor varies from 0 to 1
@@ -168,4 +153,34 @@ void AdaptiveCruiseControl::displayStatus() const {
                   << "Current Relative Speed: " << relativeSpeed << " meters/s\n"
                   << "Current Distance: " << currentDistance << " meters\n";
     cout << "****************************" << endl << endl;
+}
+
+
+
+
+// Thread function for ACC control
+void accThreadFunction(AdaptiveCruiseControl& acc, string& name, Car& red_car, Car& blue_car) {
+    while (running) {
+        cout << name << " Thread is running..." << endl;
+        acc.displayStatus();
+        // Get the distance between the red car and the blue car using LIDAR
+        double lidar_distance = get_lidar_distance(red_car, blue_car);
+
+        // Get the relative speed between the red car and the blue car using LIDAR
+        double relative_speed = get_lidar_relative_speed(red_car, blue_car);
+
+        // Update ACC parameters
+        acc.updateRelativeSpeed(relative_speed);
+        acc.updateDistance(lidar_distance);
+
+        // Update test car's parameters
+        acc.adjustSpeed();
+
+        // Print ACC status
+        acc.displayStatus();
+
+        // Pause to simulate real-time updates, Mutex is automatically unlocked when `lock` goes out of scope
+        this_thread::sleep_for(chrono::milliseconds(100));
+    }
+    cout << "ACC thread stopping..." << endl;
 }

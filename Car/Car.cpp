@@ -7,6 +7,7 @@
 Car::Car(double x, double y, double speed, double acceleration) : x(x), y(y), speed(speed), acceleration(acceleration){}
 
 void Car::adjust_speed(double distance) {
+    std::lock_guard<std::mutex> lock(car_mutex);
     if (distance < SAFE_DISTANCE) {
         speed -= ACCELERATION;  // Slow down
         if (speed < MIN_SPEED) {
@@ -21,6 +22,7 @@ void Car::adjust_speed(double distance) {
 }
 
 void Car::go(double deltaTime) {
+    std::lock_guard<std::mutex> lock(car_mutex);
     deltaTime = 1;
     // Update position
     double distance = speed * deltaTime + 0.5 * acceleration * deltaTime * deltaTime;
@@ -36,6 +38,12 @@ void Car::go(double deltaTime) {
     if(x > 800){
         x = 0;
     }
+
+}
+
+double Car::getSpeed() {
+    std::lock_guard<std::mutex> lock(car_mutex);
+    return speed;
 
 }
 

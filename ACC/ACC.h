@@ -1,21 +1,28 @@
 #ifndef ACC_H
 #define ACC_H
 #include "nlohmann/json.hpp"
+#include <atomic>
+#include "../Utility/globals.h"
+
 using json = nlohmann::json;
 using namespace std;
+// Forward declaration
+class AdaptiveCruiseControl;
 
 
-double get_lidar_distance(const Car& red_car, const Car& blue_car);
-double get_lidar_relative_speed(const Car& red_car, const Car& blue_car);
+void accThreadFunction(AdaptiveCruiseControl& acc, string& name, Car& red_car, Car& blue_car);
 
+double get_lidar_distance(Car& red_car, Car& blue_car);
+double get_lidar_relative_speed(Car& red_car, Car& blue_car);
+
+// Unused
 void move_cars(Car& red_car, Car& blue_car);
-
-void print_status(const Car& red_car, const Car& blue_car, double distance);
-
+void print_status(Car& red_car, Car& blue_car, double distance);
 void adjust_speed(Car& car, double lidar_distance);
 
 void update_cars_from_json(const std::string& file_path, Car& red_car, Car& blue_car);
 void update_json_from_cars(const std::string& file_path, Car& red_car, Car& blue_car);
+
 class AdaptiveCruiseControl{
 private:
     Car& car;    // Current speed of the vehicle (km/h)
