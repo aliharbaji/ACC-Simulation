@@ -1,7 +1,4 @@
 #include "Utility/globals.h"
-#include <memory>
-#include "Car/Car.h"
-#include "Sensor/Sensor.h"
 #include "Sensor/LiDAR.h"
 
 extern std::atomic<bool> running; // Declaration of the global variable
