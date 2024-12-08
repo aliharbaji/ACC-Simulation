@@ -4,6 +4,7 @@
 #include <atomic>
 #include "../Utility/globals.h"
 
+extern std::atomic<bool> running; // Declaration of the global variable
 using json = nlohmann::json;
 using namespace std;
 // Forward declaration

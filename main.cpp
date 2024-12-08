@@ -1,21 +1,6 @@
-#include "Car/Car.h"
-#include "ACC/ACC.h"
+#include "Utility/globals.h"
 
-#include <iostream>
-#include <thread>
-#include <fstream>
-
-
-using namespace std;
-
-using json = nlohmann::json;
-
-#define JSON_PATH "Utility/car_params.json"
-//#define JSON_PATH "../Utility/car_params.json" // for debugging only
-
-#define DELTA_TIME 0.01
-std::atomic<bool> running(true);
-
+extern std::atomic<bool> running; // Declaration of the global variable
 int main() {
     // Initialize the cars
     Car red_car(0.0, 400, 2.0, 1);  // Starting position and speed of the red car
@@ -39,7 +24,7 @@ int main() {
 
     const std::string json_file_path = JSON_PATH;
     // Check if the file exists
-    std::ifstream input_file(json_file_path);
+    ifstream input_file(json_file_path);
     if (input_file.is_open()) {
         try {
             input_file >> json_file; // Parse JSON from the file

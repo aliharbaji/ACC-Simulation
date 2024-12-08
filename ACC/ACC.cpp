@@ -9,7 +9,7 @@
 
 #include "../Car/Car.h"
 #include "ACC.h"
-
+#include "../Utility/globals.h"
 
 
 // Function to write car parameters to JSON file
@@ -154,7 +154,6 @@ void AdaptiveCruiseControl::displayStatus() const {
                   << "Current Distance: " << currentDistance << " meters\n";
     cout << "****************************" << endl << endl;
 }
-
 
 
 

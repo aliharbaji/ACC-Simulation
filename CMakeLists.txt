@@ -25,7 +25,12 @@ add_executable(ACC
         main.cpp
         Car/Car.cpp
         ACC/ACC.h
-        Utility/globals.h)
+        Utility/globals.h
+        Sensor/Sensor.cpp
+        Sensor/Sensor.h
+        Sensor/LiDAR.cpp
+        Sensor/LiDAR.h
+        Utility/globals.h Utility/globals.cpp)
 
 # Link the json library
 target_link_libraries(ACC PRIVATE nlohmann_json::nlohmann_json)

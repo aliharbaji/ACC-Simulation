@@ -17,7 +17,7 @@ Features
   
     a: Acceleration or deceleration of the host vehicle (m/s²).
   
-    speedDifference: The difference in speed between the target speed and the current speed of the host vehicle (targetSpeed−currentSpeedtargetSpeed−currentSpeed).
+    speedDifference: The difference in speed between the target speed and the current speed of the host vehicle (targetSpeed−currentSpeed).
   
     distanceDifference: The difference between the current distance to the vehicle in front and the desired safe distance (currentDistance − safeDistance).
 
