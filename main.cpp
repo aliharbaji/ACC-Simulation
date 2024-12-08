@@ -1,7 +1,7 @@
 #include "Utility/globals.h"
 #include "Sensor/LiDAR.h"
 
-extern std::atomic<bool> running; // Declaration of the global variable
+extern atomic<bool> running; // Declaration of the global variable
 
 int main() {
     // Initialize the cars
@@ -9,11 +9,11 @@ int main() {
     Car blue_car(400, 400.0, 1.0, 0.0); // Starting position of the blue car (obstacle)
 
     // Initialize ACC Unit
-    std::shared_ptr<AdaptiveCruiseControl> front_acc = std::make_shared<AdaptiveCruiseControl>(red_car);
+    shared_ptr<AdaptiveCruiseControl> front_acc = make_shared<AdaptiveCruiseControl>(red_car);
     red_car.setACC(front_acc);
 
     // Initialize sensors
-    std::shared_ptr<LiDAR> lidar = std::make_shared<LiDAR>(std::ref(blue_car));
+    shared_ptr<LiDAR> lidar = make_shared<LiDAR>(ref(blue_car));
     red_car.setFrontSensor(lidar);
 
     // Initialize json_file
@@ -24,21 +24,21 @@ int main() {
     thread front_bumper_thread(accThreadFunction, ref(front_acc), ref(frnt), ref(red_car), ref(blue_car));
 
     // Sleep for 1 sec before starting
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    this_thread::sleep_for(chrono::milliseconds(1000));
 
-    const std::string json_file_path = JSON_PATH;
+    const string json_file_path = JSON_PATH;
     // Check if the file exists
     ifstream input_file(json_file_path);
     if (input_file.is_open()) {
         try {
             input_file >> json_file; // Parse JSON from the file
-            std::cout << "Successfully loaded JSON file.\n";
+            cout << "Successfully loaded JSON file.\n";
         } catch (const json::parse_error& e) {
-            std::cerr << "Error parsing JSON: " << e.what() << '\n';
+            cerr << "Error parsing JSON: " << e.what() << '\n';
             json_file = {}; // Initialize as empty JSON
         }
     } else {
-        std::cout << "JSON file not found. Initializing new JSON object.\n";
+        cout << "JSON file not found. Initializing new JSON object.\n";
         json_file = {}; // Initialize as empty JSON
     }
     input_file.close();
