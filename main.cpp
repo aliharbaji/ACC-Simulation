@@ -9,19 +9,19 @@ int main() {
     Car blue_car(400, 400.0, 1.0, 0.0); // Starting position of the blue car (obstacle)
 
     // Initialize ACC Unit
-    shared_ptr<AdaptiveCruiseControl> front_acc = make_shared<AdaptiveCruiseControl>(red_car);
-    red_car.setACC(front_acc);
+    shared_ptr<AdaptiveCruiseControl> acc = make_shared<AdaptiveCruiseControl>(red_car);
+    red_car.setACC(acc);
 
     // Initialize sensors
-    shared_ptr<LiDAR> lidar = make_shared<LiDAR>(ref(blue_car));
-    red_car.setFrontSensor(lidar);
+    shared_ptr<LiDAR> lidar_front = make_shared<LiDAR>(ref(blue_car));
+    red_car.setFrontSensor(lidar_front);
 
     // Initialize json_file
     json json_file;
 
     // Initialize threads
     string frnt("front bumper"); // thread name
-    thread front_bumper_thread(accThreadFunction, ref(front_acc), ref(frnt), ref(red_car), ref(blue_car));
+    thread front_bumper_thread(accThreadFunction, ref(acc), ref(frnt), ref(red_car), ref(blue_car));
 
     // Sleep for 1 sec before starting
     this_thread::sleep_for(chrono::milliseconds(1000));
