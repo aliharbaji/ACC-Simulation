@@ -11,8 +11,8 @@ using namespace std;
 using json = nlohmann::json;
 
 #define JSON_PATH "Utility/car_params.json"
-
 //#define JSON_PATH "../Utility/car_params.json" // for debugging only
+
 #define DELTA_TIME 0.01
 std::atomic<bool> running(true);
 
