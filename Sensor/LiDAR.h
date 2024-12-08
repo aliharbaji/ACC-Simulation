@@ -5,16 +5,17 @@
 #ifndef ACC_LIDAR_H
 #define ACC_LIDAR_H
 #include "../Utility/globals.h"
+#include "Sensor.h"
 
 class LiDAR : public Sensor {
 private:
 
 public:
-    LiDAR(Car& host_car, Car& target_car): Sensor(host_car, target_car){}
+    LiDAR(Car& target_car): Sensor(target_car){}
 
-    double getDistance() override;
+    double getLocation() const override;
 
-    double getRelativeSpeed() override;
+    double getSpeed() const override;
 };
 
 

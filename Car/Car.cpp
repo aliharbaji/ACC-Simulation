@@ -2,9 +2,14 @@
 // Created by allih on 26/11/2024.
 //
 #include "Car.h"
+#include "../Sensor/Sensor.h"
+
+Car::Car(double x, double y, double speed, double acceleration, std::shared_ptr<AdaptiveCruiseControl> acc,
+         std::shared_ptr<Sensor> front_bumper, std::shared_ptr<Sensor> rear_bumper)
+        : x(x), y(y), speed(speed), acceleration(acceleration),
+          acc(acc), front_bumper(front_bumper), rear_bumper(rear_bumper) {}
 
 
-Car::Car(double x, double y, double speed, double acceleration) : x(x), y(y), speed(speed), acceleration(acceleration){}
 
 void Car::adjust_speed(double distance) {
     std::lock_guard<std::mutex> lock(car_mutex);
@@ -45,5 +50,17 @@ double Car::getSpeed() {
     std::lock_guard<std::mutex> lock(car_mutex);
     return speed;
 
+}
+
+double Car::getFrontBumperRelativeSpeed() const{
+    double relative_speed = front_bumper->getSpeed() - this->speed;
+
+    return relative_speed;
+}
+
+double Car::getFrontBumperDistance() const{
+//    double distance = std::sqrt(std::pow(front_bumper->getLocation() - this->x, 2) + std::pow(blue_car.getY() - red_car.getY(), 2));
+    double distance = abs(front_bumper->getLocation() - this->x);
+    return distance;
 }
 

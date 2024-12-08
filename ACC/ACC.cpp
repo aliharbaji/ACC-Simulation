@@ -158,25 +158,26 @@ void AdaptiveCruiseControl::displayStatus() const {
 
 
 // Thread function for ACC control
-void accThreadFunction(AdaptiveCruiseControl& acc, string& name, Car& red_car, Car& blue_car) {
+void accThreadFunction(std::shared_ptr<AdaptiveCruiseControl> acc, string& name, Car& red_car, Car& blue_car) {
     while (running) {
         cout << name << " Thread is running..." << endl;
-        acc.displayStatus();
+        acc->displayStatus();
         // Get the distance between the red car and the blue car using LIDAR
-        double lidar_distance = get_lidar_distance(red_car, blue_car);
+        double lidar_distance = acc->getCar().getFrontBumperDistance();
 
         // Get the relative speed between the red car and the blue car using LIDAR
-        double relative_speed = get_lidar_relative_speed(red_car, blue_car);
+        double relative_speed = acc->getCar().getFrontBumperRelativeSpeed();
+//        double relative_speed = get_lidar_relative_speed(red_car, blue_car);
 
         // Update ACC parameters
-        acc.updateRelativeSpeed(relative_speed);
-        acc.updateDistance(lidar_distance);
+        acc->updateRelativeSpeed(relative_speed);
+        acc->updateDistance(lidar_distance);
 
         // Update test car's parameters
-        acc.adjustSpeed();
+        acc->adjustSpeed();
 
         // Print ACC status
-        acc.displayStatus();
+        acc->displayStatus();
 
         // Pause to simulate real-time updates, Mutex is automatically unlocked when `lock` goes out of scope
         this_thread::sleep_for(chrono::milliseconds(100));

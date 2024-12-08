@@ -1,26 +1,33 @@
 #include "Utility/globals.h"
+#include <memory>
+#include "Car/Car.h"
+#include "Sensor/Sensor.h"
+#include "Sensor/LiDAR.h"
 
 extern std::atomic<bool> running; // Declaration of the global variable
+
 int main() {
     // Initialize the cars
-    Car red_car(0.0, 400, 2.0, 1);  // Starting position and speed of the red car
-    Car blue_car(400, 400, 1.0); // Starting position of the blue car (obstacle)
-    Car green_car(0.0, 200, 0, 0);
+    Car red_car(0.0, 400.0, 1.0, 1.0);  // Host car
+    Car blue_car(400, 400.0, 1.0, 0.0); // Starting position of the blue car (obstacle)
 
+    // Initialize ACC Unit
+    std::shared_ptr<AdaptiveCruiseControl> front_acc = std::make_shared<AdaptiveCruiseControl>(red_car);
+    red_car.setACC(front_acc);
+
+    // Initialize sensors
+    std::shared_ptr<LiDAR> lidar = std::make_shared<LiDAR>(std::ref(blue_car));
+    red_car.setFrontSensor(lidar);
+
+    // Initialize json_file
     json json_file;
 
-    // Initialize ACC for front and rear bumpers
-    AdaptiveCruiseControl acc_front_bumper(red_car, red_car.getSpeed() * 2,
-                                           200, 5, 2, 0, 1, 0.01);
-    AdaptiveCruiseControl acc_rear_bumper(red_car, red_car.getSpeed() * 2,
-                                          200, 5, 2, 0, 1, 0.01);
+    // Initialize threads
+    string frnt("front bumper"); // thread name
+    thread front_bumper_thread(accThreadFunction, ref(front_acc), ref(frnt), ref(red_car), ref(blue_car));
 
-    // Initialize thread names
-    string frnt("front bumper");
-    string bck("bck bumper");
-
-    thread front_bumper_thread(accThreadFunction, ref(acc_front_bumper), ref(frnt), ref(red_car), ref(blue_car));
-    thread rear_bumper_thread(accThreadFunction, ref(acc_rear_bumper), ref(bck), ref(red_car), ref(blue_car));
+    // Sleep for 1 sec before starting
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     const std::string json_file_path = JSON_PATH;
     // Check if the file exists
@@ -59,7 +66,6 @@ int main() {
     // Stop threads and clean up
     running = false;
     front_bumper_thread.join();
-    rear_bumper_thread.join();
 
     return 0;
 }

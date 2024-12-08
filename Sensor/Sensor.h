@@ -9,14 +9,13 @@
 
 class Sensor {
 protected:
-    Car& host_car;
     Car& target_car;
 public:
-    Sensor(Car& host_car, Car& target_car): host_car(host_car), target_car(target_car){}
+    Sensor(Car& target_car): target_car(target_car){}
 
-    virtual double getDistance() = 0;
+    virtual double getLocation() const = 0;
 
-    virtual double getRelativeSpeed() = 0;
+    virtual double getSpeed() const = 0;
 
 };
 
