@@ -55,7 +55,7 @@ def read_car_params_from_json():
     global car_params, RED_CAR_POS, BLUE_CAR_POS
     try:
         if os.path.exists(JSON_PATH):
-            with open(JSON_PATHlear
+            with open(JSON_PATH
                     , 'r') as f:
                 new_params = json.load(f)
 
