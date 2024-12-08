@@ -1,0 +1,50 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+/venv/
+/cmake-build-debug/
+
+# Ignore JetBrains project files
+.idea/
+.vscode/
+
+# Ignore CMake build directory
+cmake-build-debug/
+build/
+CMakeFiles/
+CMakeCache.txt
+CMakeLists.txt.user
+CMakeLists.txt.old
+CMakeLists.txt.pre
+
+# Ignore updates to JSON files
+Utility/car_params.json
