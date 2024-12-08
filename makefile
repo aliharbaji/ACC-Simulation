@@ -2,13 +2,14 @@
 ACC_DIR = ACC
 CAR_DIR = Car
 UTILITY_DIR = Utility
+SENSOR_DIR = Sensor
 SIMULATION_DIR = Simulation
 PYTHON_SIMULATOR = $(SIMULATION_DIR)/LIDAR_sim.py
-CPP_FILES = main.cpp $(ACC_DIR)/ACC.cpp $(CAR_DIR)/Car.cpp
+CPP_FILES = main.cpp $(ACC_DIR)/ACC.cpp $(CAR_DIR)/Car.cpp $(SENSOR_DIR)/Sensor.cpp $(SENSOR_DIR)/LiDAR.cpp $(UTILITY_DIR)/globals.cpp
 EXECUTABLE = main
 CXX = g++
 PYTHON = python3
-CXX_FLAGS = -std=c++17 # Add any additional flags here if needed
+CXX_FLAGS = -std=c++17 -pthread # Add threading support and other flags if needed
 
 # Targets
 .PHONY: all clean run install-deps
@@ -23,6 +24,7 @@ $(EXECUTABLE): $(CPP_FILES)
 install-deps:
 	@echo "Installing Python dependencies..."
 	pip3 install pygame
+	@echo "Python dependencies installed."
 
 run: install-deps all
 	@echo "Running Python simulator..."
