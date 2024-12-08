@@ -1,5 +1,3 @@
-Adaptive Cruise Control Simulation
-
 Overview
 
 This project simulates an Adaptive Cruise Control (ACC) system for a car (referred to as red_car) that adjusts its speed based on real-time data from a LiDAR sensor. 
