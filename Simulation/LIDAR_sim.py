@@ -10,8 +10,8 @@ import time
 from pygame import font
 
 # Path to JSON
-# JSON_PATH = 'Utility/car_params.json'
-JSON_PATH = '../Utility/car_params.json'
+JSON_PATH = 'Utility/car_params.json'
+#JSON_PATH = '../Utility/car_params.json' # for debugging only
 # Absolute path to the Utility directory
 # utility_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Utility'))
 # file_path = os.path.join(utility_dir, 'car_params.json')
